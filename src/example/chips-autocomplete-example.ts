@@ -57,6 +57,7 @@ export class ChipsAutocompleteExample {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
+    //console.log(value);
     // Add our fruit
     if (value) {
       this.selectedFruits.push(value);
@@ -79,6 +80,7 @@ export class ChipsAutocompleteExample {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
+    //console.log(event.option.viewValue);
     this.selectedFruits.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
