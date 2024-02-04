@@ -1,5 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
@@ -20,6 +20,7 @@ import { Fruta } from './model/fruta';
   templateUrl: 'chips-autocomplete-example.html',
   styleUrls: ['chips-autocomplete-example.css'],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     FormsModule,
     MatFormFieldModule,
