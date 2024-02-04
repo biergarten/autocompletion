@@ -1,14 +1,14 @@
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component, ElementRef, ViewChild, inject} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteSelectedEvent, MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatChipInputEvent, MatChipsModule} from '@angular/material/chips';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatIconModule} from '@angular/material/icon';
-import {AsyncPipe} from '@angular/common';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {LiveAnnouncer} from '@angular/cdk/a11y';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatIconModule } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 /**
  * @title Chips Autocomplete
@@ -33,7 +33,7 @@ export class ChipsAutocompleteExample {
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', 'Apple1', 'Lemon1', 'Lime1', 'Orange1', 'Strawberry1', 'Apple2', 'Lemon2', 'Lime2', 'Orange2', 'Strawberry2'];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
