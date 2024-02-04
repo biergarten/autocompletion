@@ -13,8 +13,9 @@ export class FrutasService {
 
     }
 
-    loadAllFrutas(): Observable<Fruta[]> {
-        return this.http.get<any>("/api/frutas")
+    loadAllFrutas(substring: string | null): Observable<Fruta[]> {
+        const url = `/api/frutas?&filter=${substring}`;
+        return this.http.get<any>(url)
             .pipe(
                 map(res => res["payload"] as Fruta[]),
                 shareReplay()

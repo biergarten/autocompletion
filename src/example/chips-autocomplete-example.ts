@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { Observable, from } from 'rxjs';
-import { map, startWith, tap, toArray } from 'rxjs/operators';
+import { debounce, debounceTime, map, startWith, switchMap, tap, toArray } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,36 +35,24 @@ export class ChipsAutocompleteExample {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
-  fruits: string[] = ['Lemon'];
+  selectedFruits: string[] = ['Lemon'];
   allFruits: string[];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
 
-  arrayOfFrutas: Fruta[] = [
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Cherry' }
-  ];
 
   constructor(private frutasService: FrutasService) {
 
-    frutasService.loadAllFrutas()
-      //from(this.arrayOfFrutas)
-      .pipe(
-        //tap(data => console.log(data)),
-        map((data) => data.map(fruta => fruta.name))
-      )
-      .subscribe(result => {
-        this.allFruits = result;
-        console.log(result);
-        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-          startWith(null),
-          map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-        );
-      })
+    const filteredFruits$ = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      debounceTime(400),
+      switchMap((substring: string | null) => this.frutasService.loadAllFrutas(substring))
+    )
+      .subscribe(console.log);
 
+    // filteredFruits$.subscribe(data=> this.filteredFruits =[] data);
   }
 
   add(event: MatChipInputEvent): void {
@@ -72,7 +60,7 @@ export class ChipsAutocompleteExample {
 
     // Add our fruit
     if (value) {
-      this.fruits.push(value);
+      this.selectedFruits.push(value);
     }
 
     // Clear the input value
@@ -82,17 +70,17 @@ export class ChipsAutocompleteExample {
   }
 
   remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
+    const index = this.selectedFruits.indexOf(fruit);
 
     if (index >= 0) {
-      this.fruits.splice(index, 1);
+      this.selectedFruits.splice(index, 1);
 
       this.announcer.announce(`Removed ${fruit}`);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.viewValue);
+    this.selectedFruits.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
   }

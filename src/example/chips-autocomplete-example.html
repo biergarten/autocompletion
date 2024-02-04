@@ -2,7 +2,7 @@
   <mat-form-field class="example-chip-list">
     <mat-label>Favorite Fruits</mat-label>
     <mat-chip-grid #chipGrid aria-label="Fruit selection">
-      @for (fruit of fruits; track fruit) {
+      @for (fruit of selectedFruits; track fruit) {
       <mat-chip-row (removed)="remove(fruit)">
         {{fruit}}
         <button matChipRemove [attr.aria-label]="'remove ' + fruit">
