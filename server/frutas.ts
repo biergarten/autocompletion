@@ -1,1 +1,20 @@
-export const FRUTAS: any = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', 'Apple1', 'Lemon1', 'Lime1', 'Orange1', 'Strawberry1', 'Apple2', 'Lemon2', 'Lime2', 'Orange2', 'Strawberry2']
+export const FRUTAS: any = {
+    1: {
+        id: 1,
+        name: 'angostura'
+    },
+    2: {
+        id: 2,
+        name: 'lemon'
+    },
+    3: {
+        id: 3,
+        name: 'apple'
+    },
+    4: {
+        id: 4,
+        name: 'orange'
+    },
+
+}
+

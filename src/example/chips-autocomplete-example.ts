@@ -3,12 +3,14 @@ import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, from } from 'rxjs';
+import { map, startWith, tap, toArray } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { FrutasService } from './service/frutas.service';
+import { Fruta } from './model/fruta';
 
 /**
  * @title Chips Autocomplete
@@ -33,17 +35,35 @@ export class ChipsAutocompleteExample {
   fruitCtrl = new FormControl('');
   filteredFruits: Observable<string[]>;
   fruits: string[] = ['Lemon'];
-  allFruits: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry', 'Apple1', 'Lemon1', 'Lime1', 'Orange1', 'Strawberry1', 'Apple2', 'Lemon2', 'Lime2', 'Orange2', 'Strawberry2'];
+  allFruits: string[];
 
   @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   announcer = inject(LiveAnnouncer);
 
-  constructor() {
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
-    );
+  arrayOfFrutas: Fruta[] = [
+    { id: 1, name: 'Apple' },
+    { id: 2, name: 'Banana' },
+    { id: 3, name: 'Cherry' }
+  ];
+
+  constructor(private frutasService: FrutasService) {
+
+    frutasService.loadAllFrutas()
+      //from(this.arrayOfFrutas)
+      .pipe(
+        //tap(data => console.log(data)),
+        map((data) => data.map(fruta => fruta.name))
+      )
+      .subscribe(result => {
+        this.allFruits = result;
+        console.log(result);
+        this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+          startWith(null),
+          map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allFruits.slice())),
+        );
+      })
+
   }
 
   add(event: MatChipInputEvent): void {
