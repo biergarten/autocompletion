@@ -6,6 +6,7 @@ import { searchLessons } from "./search-lessons.route";
 import { saveCourse } from './save-course.route';
 import { loginUser } from './login.route';
 import { getAllFrutas } from './get-frutas.route';
+import { searchFrutas } from './search-frutas.route';
 
 const bodyParser = require('body-parser');
 
@@ -25,7 +26,9 @@ app.route('/api/lessons').get(searchLessons);
 
 app.route('/api/courses/:id').put(saveCourse);
 
-app.route('/api/frutas').get(getAllFrutas);
+//app.route('/api/frutas').get(getAllFrutas);
+app.route('/api/frutas').get(searchFrutas);
+
 
 app.route('/api/login').post(loginUser);
 
