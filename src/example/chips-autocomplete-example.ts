@@ -4,7 +4,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { Observable } from 'rxjs';
-import { debounceTime, map, startWith, switchMap, tap, toArray } from 'rxjs/operators';
+import { debounceTime, filter, map, startWith, switchMap, tap, toArray } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { AsyncPipe, NgFor } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,7 +35,7 @@ import { Fruta } from './model/fruta';
 export class ChipsAutocompleteExample {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl('');
-  filteredFruits: Observable<string[]>;
+  filteredFruits$: Observable<string[]>;
   selectedFruits: string[] = ['Lemon'];
   allFruits: string[];
 
@@ -46,8 +46,9 @@ export class ChipsAutocompleteExample {
 
   constructor(private frutasService: FrutasService) {
 
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+    this.filteredFruits$ = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
+      filter(substring => substring !== null && substring.length >= 2),
       debounceTime(400),
       switchMap((substring: string | null) => this.frutasService.loadAllFrutas(substring)),
       map(x => x.map(y => y.name))

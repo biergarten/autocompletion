@@ -1,7 +1,7 @@
 export const FRUTAS = {
     1: {
         id: 1,
-        name: 'angostura'
+        name: 'angostura y de la muy buena. que rica'
     },
     2: {
         id: 2,
