@@ -3,10 +3,10 @@ import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } fro
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Observable, from } from 'rxjs';
-import { debounce, debounceTime, map, startWith, switchMap, tap, toArray } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, map, startWith, switchMap, tap, toArray } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgFor } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FrutasService } from './service/frutas.service';
@@ -29,6 +29,7 @@ import { Fruta } from './model/fruta';
     MatAutocompleteModule,
     ReactiveFormsModule,
     AsyncPipe,
+    NgFor
   ],
 })
 export class ChipsAutocompleteExample {
