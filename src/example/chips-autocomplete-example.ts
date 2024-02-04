@@ -45,14 +45,12 @@ export class ChipsAutocompleteExample {
 
   constructor(private frutasService: FrutasService) {
 
-    const filteredFruits$ = this.fruitCtrl.valueChanges.pipe(
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
       startWith(null),
       debounceTime(400),
-      switchMap((substring: string | null) => this.frutasService.loadAllFrutas(substring))
-    )
-      .subscribe(console.log);
-
-    // filteredFruits$.subscribe(data=> this.filteredFruits =[] data);
+      switchMap((substring: string | null) => this.frutasService.loadAllFrutas(substring)),
+      map(x => x.map(y => y.name))
+    );
   }
 
   add(event: MatChipInputEvent): void {
@@ -83,12 +81,6 @@ export class ChipsAutocompleteExample {
     this.selectedFruits.push(event.option.viewValue);
     this.fruitInput.nativeElement.value = '';
     this.fruitCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allFruits.filter(fruit => fruit.toLowerCase().includes(filterValue));
   }
 }
 

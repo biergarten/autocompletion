@@ -34,7 +34,7 @@ export function searchFrutas(req: Request, res: Response) {
 
     setTimeout(() => {
         res.status(200).json({ payload: frutasPage });
-    }, 1000);
+    }, 10);
 
 
 }
