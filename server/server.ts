@@ -1,10 +1,11 @@
 
 import * as express from 'express';
-import {Application} from "express";
-import {getAllCourses, getCourseById} from "./get-courses.route";
-import {searchLessons} from "./search-lessons.route";
-import {saveCourse} from './save-course.route';
-import {loginUser} from './login.route';
+import { Application } from "express";
+import { getAllCourses, getCourseById } from "./get-courses.route";
+import { searchLessons } from "./search-lessons.route";
+import { saveCourse } from './save-course.route';
+import { loginUser } from './login.route';
+import { getAllFrutas } from './get-frutas.route';
 
 const bodyParser = require('body-parser');
 
@@ -14,7 +15,7 @@ app.use(bodyParser.json());
 
 const cors = require('cors');
 
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 
 app.route('/api/courses').get(getAllCourses);
 
@@ -23,6 +24,8 @@ app.route('/api/courses/:id').get(getCourseById);
 app.route('/api/lessons').get(searchLessons);
 
 app.route('/api/courses/:id').put(saveCourse);
+
+app.route('/api/frutas').get(getAllFrutas);
 
 app.route('/api/login').post(loginUser);
 
